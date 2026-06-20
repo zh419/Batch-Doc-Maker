@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>意见反馈 · Feedback · Batch-Doc-Maker</title>
+		<style>
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+				margin: 0;
+				color: #1a1a1a;
+				background-color: #ffffff;
+				line-height: 1.6;
+			}
+
+			.container {
+				max-width: 960px;
+				margin: 0 auto;
+				padding: 0 24px;
+				position: relative;
+			}
+
+			/* 语言切换器 */
+			.lang-switcher {
+				background: #ffffff;
+				border: 1px solid #e5e5e5;
+				border-radius: 20px;
+				padding: 4px;
+				display: flex;
+				gap: 4px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+				flex-shrink: 0;
+				align-self: center;
+			}
+
+			.lang-btn {
+				padding: 4px 14px;
+				border-radius: 16px;
+				border: none;
+				background: transparent;
+				color: #666;
+				cursor: pointer;
+				font-size: 13px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.lang-btn:hover {
+				color: #0969da;
+			}
+
+			.lang-btn.active {
+				background: #0969da;
+				color: #fff;
+				box-shadow: 0 2px 4px rgba(9, 105, 218, 0.3);
+			}
+
+			/* 导航 */
+			nav {
+				padding: 24px 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				flex-wrap: wrap;
+			}
+
+			.logo {
+				font-size: 20px;
+				font-weight: 700;
+				color: #1a1a1a;
+				text-decoration: none;
+			}
+
+			.logo span {
+				color: #0969da;
+			}
+
+			.nav-links a {
+				color: #57606a;
+				text-decoration: none;
+				margin-left: 24px;
+				font-size: 14px;
+				font-weight: 500;
+				transition: color 0.2s;
+			}
+
+			.nav-links a:hover {
+				color: #0969da;
+			}
+
+			/* 主体区域 */
+			.feedback-hero {
+				padding: 48px 0 32px;
+				text-align: center;
+				animation: fadeInUp 0.6s ease backwards;
+			}
+
+			.feedback-hero .badge {
+				display: inline-block;
+				background: #ddf4ff;
+				color: #0969da;
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-size: 13px;
+				font-weight: 600;
+				margin-bottom: 24px;
+			}
+
+			.feedback-hero h1 {
+				font-size: 42px;
+				line-height: 1.15;
+				margin: 0 0 20px;
+				letter-spacing: -1px;
+			}
+
+			.feedback-hero h1 .accent {
+				color: #0969da;
+			}
+
+			.feedback-hero .lead {
+				font-size: 18px;
+				color: #57606a;
+				max-width: 640px;
+				margin: 0 auto;
+			}
+
+			/* 表单嵌入容器 */
+			.form-container {
+				background: #f6f8fa;
+				border: 1px solid #d0d7de;
+				border-radius: 16px;
+				padding: 24px;
+				margin: 0 auto 64px;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+				animation: fadeInUp 0.8s ease backwards;
+			}
+
+			.form-iframe {
+				width: 100%;
+				min-height: 700px;
+				/* 根据你的表单长度自行调整高度 */
+				border: none;
+				border-radius: 8px;
+				background: #fff;
+				display: block;
+			}
+
+			/* 页脚 */
+			footer {
+				padding: 32px 0 48px;
+				border-top: 1px solid #e5e5e5;
+				font-size: 14px;
+				color: #666;
+				text-align: center;
+			}
+
+			footer a {
+				color: #57606a;
+				text-decoration: none;
+				margin-left: 20px;
+				transition: opacity 0.2s;
+			}
+
+			footer a:first-child {
+				margin-left: 0;
+			}
+
+			footer a:hover {
+				color: #0969da;
+			}
+
+			/* 双语控制 */
+			body[data-lang="en"] .lang-zh {
+				display: none;
+			}
+
+			body[data-lang="en"] .lang-en {
+				display: block;
+			}
+
+			body[data-lang="en"] .lang-zh-inline {
+				display: none;
+			}
+
+			body[data-lang="en"] .lang-en-inline {
+				display: inline;
+			}
+
+			body[data-lang="zh"] .lang-en {
+				display: none;
+			}
+
+			body[data-lang="zh"] .lang-zh {
+				display: block;
+			}
+
+			body[data-lang="zh"] .lang-en-inline {
+				display: none;
+			}
+
+			body[data-lang="zh"] .lang-zh-inline {
+				display: inline;
+			}
+
+			@media (max-width: 768px) {
+				.feedback-hero {
+					padding: 24px 0 16px;
+				}
+
+				.feedback-hero h1 {
+					font-size: 30px;
+				}
+
+				.feedback-hero .lead {
+					font-size: 16px;
+				}
+
+				.nav-links {
+					display: none;
+				}
+
+				.form-container {
+					padding: 16px;
+				}
+
+				.form-iframe {
+					min-height: 800px;
+					/* 移动端表单通常较长 */
+				}
+			}
+
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body data-lang="zh">
+		<div class="container">
+			<!-- 导航 -->
+			<nav>
+				<a href="/" class="logo">Batch<span>-</span>Doc<span>-</span>Maker</a>
+				<div class="nav-links">
+					<a href="/" class="lang-en-inline">HOME</a>
+					<a href="/" class="lang-zh-inline">首页</a>
+					<a href="/feedback" class="lang-en-inline">Feedback</a>
+					<a href="/feedback" class="lang-zh-inline">反馈</a>
+					<a href="/privacy" class="lang-en-inline">Privacy</a>
+					<a href="/privacy" class="lang-zh-inline">隐私</a>
+				</div>
+
+				<!-- 语言切换 -->
+				<div class="lang-switcher">
+					<button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+					<button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中</button>
+				</div>
+			</nav>
+
+			<!-- 标题区域 -->
+			<section class="feedback-hero">
+				<span class="badge lang-en">We value your voice 📢</span>
+				<span class="badge lang-zh">倾听你的声音 📢</span>
+
+				<h1 class="lang-en">Help us make <span class="accent">Batch-Doc-Maker</span> better</h1>
+				<h1 class="lang-zh">帮助我们让 <span class="accent">Batch-Doc-Maker</span> 变得更好</h1>
+
+				<p class="lead lang-en">Found a bug? Have a feature request? 
+					Fill out the form below and let us know.</p>
+				<p class="lead lang-zh">发现了 Bug？有想要的新功能？请在下方表单中告诉我们。</p>
+			</section>
+
+			<!-- 第三方表单嵌入区 -->
+			<div class="form-container">
+				<!-- 
+					请将下面 iframe 的 src 替换为你的第三方表单分享链接。
+					如果第三方表单支持通过 URL 传递语言参数，也可以通过 JS 动态修改 src 以支持双语表单。
+					例如：https://forms.gle/your-form-id 
+				-->
+				<iframe src="https://f.wps.cn/ksform/w/write/99Eoyfrh"
+					class="form-iframe" loading="lazy">
+					Loading…
+				</iframe>
+			</div>
+
+			<!-- 页脚 -->
+			<footer>
+				<span>© 2026 Batch-Doc-Maker · <span class="lang-en-inline">All rights reserved.</span><span
+						class="lang-zh-inline">版权所有。</span></span>
+			</footer>
+		</div>
+
+		<script>
+			function switchLang(lang) {
+				document.body.setAttribute('data-lang', lang);
+				document.querySelectorAll('.lang-btn').forEach(btn => {
+					btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+				});
+			}
+		</script>
+	</body>
+</html>
