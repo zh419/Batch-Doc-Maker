@@ -329,17 +329,19 @@
 		<div class="container">
 			<!-- 导航 -->
 			<nav>
-				<a href="/" class="logo">Batch<span>-</span>Doc<span>-</span>Maker</a>
+				<div class="logo">Batch<span>-</span>Doc<span>-</span>Maker</div>
 				<div class="nav-links">
-					<a href="/" class="lang-en-inline">HOME</a>
-					<a href="/" class="lang-zh-inline">首页</a>
-					<a href="/contact" class="lang-en-inline">Contact</a>
-					<a href="/contact" class="lang-zh-inline">联系</a>
-					<a href="/privacy" class="lang-en-inline">Privacy</a>
-					<a href="/privacy" class="lang-zh-inline">隐私</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker" class="lang-en-inline">HOME</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker" class="lang-zh-inline">首页</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Feedback" class="lang-en-inline">Feedback</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Feedback" class="lang-zh-inline">意见反馈</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Contact" class="lang-en-inline">Contact</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Contact" class="lang-zh-inline">联系作者</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Donate" class="lang-en-inline">Donate</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker/Donate" class="lang-zh-inline">捐赠</a>
 				</div>
 
-				<!-- 语言切换 -->
+				<!-- 语言切换：从 fixed 改为 nav 内的 flex 子项 -->
 				<div class="lang-switcher">
 					<button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
 					<button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中</button>
