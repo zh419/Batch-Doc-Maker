@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>支持 Batch-Doc-Maker · Buy me a coffee</title>
+		<style>
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+				margin: 0;
+				color: #1a1a1a;
+				background-color: #ffffff;
+				line-height: 1.6;
+			}
+
+			.container {
+				max-width: 960px;
+				margin: 0 auto;
+				padding: 0 24px;
+				position: relative;
+			}
+
+			/* 语言切换器 */
+			.lang-switcher {
+				background: #ffffff;
+				border: 1px solid #e5e5e5;
+				border-radius: 20px;
+				padding: 4px;
+				display: flex;
+				gap: 4px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+				flex-shrink: 0;
+				align-self: center;
+			}
+
+			.lang-btn {
+				padding: 4px 14px;
+				border-radius: 16px;
+				border: none;
+				background: transparent;
+				color: #666;
+				cursor: pointer;
+				font-size: 13px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.lang-btn:hover {
+				color: #0969da;
+			}
+
+			.lang-btn.active {
+				background: #0969da;
+				color: #fff;
+				box-shadow: 0 2px 4px rgba(9, 105, 218, 0.3);
+			}
+
+			/* 导航 */
+			nav {
+				padding: 24px 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				flex-wrap: wrap;
+			}
+
+			.logo {
+				font-size: 20px;
+				font-weight: 700;
+				color: #1a1a1a;
+				text-decoration: none;
+			}
+
+			.logo span {
+				color: #0969da;
+			}
+
+			.nav-links a {
+				color: #57606a;
+				text-decoration: none;
+				margin-left: 24px;
+				font-size: 14px;
+				font-weight: 500;
+				transition: color 0.2s;
+			}
+
+			.nav-links a:hover {
+				color: #0969da;
+			}
+
+			/* 捐赠主区域 */
+			.donate-hero {
+				padding: 64px 0 48px;
+				text-align: center;
+				animation: fadeInUp 0.6s ease backwards;
+			}
+
+			.donate-hero .badge {
+				display: inline-block;
+				background: #ddf4ff;
+				color: #0969da;
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-size: 13px;
+				font-weight: 600;
+				margin-bottom: 24px;
+			}
+
+			.donate-hero h1 {
+				font-size: 42px;
+				line-height: 1.15;
+				margin: 0 0 20px;
+				letter-spacing: -1px;
+			}
+
+			.donate-hero h1 .accent {
+				color: #0969da;
+			}
+
+			.donate-hero .lead {
+				font-size: 18px;
+				color: #57606a;
+				max-width: 600px;
+				margin: 0 auto 40px;
+			}
+
+			/* 二维码卡片 */
+			.qr-card {
+				background: #f6f8fa;
+				border: 1px solid #d0d7de;
+				border-radius: 16px;
+				padding: 40px 32px;
+				max-width: 420px;
+				margin: 0 auto 48px;
+				text-align: center;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+				animation: fadeInUp 0.8s ease backwards;
+			}
+
+			.qr-tabs {
+				display: flex;
+				justify-content: center;
+				gap: 8px;
+				margin-bottom: 24px;
+			}
+
+			.qr-tab {
+				padding: 8px 20px;
+				border-radius: 20px;
+				border: 1px solid #d0d7de;
+				background: #ffffff;
+				color: #57606a;
+				cursor: pointer;
+				font-size: 14px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.qr-tab.active {
+				background: #0969da;
+				color: #fff;
+				border-color: #0969da;
+				box-shadow: 0 2px 8px rgba(9, 105, 218, 0.25);
+			}
+
+			.qr-image-wrap {
+				background: #ffffff;
+				border-radius: 12px;
+				padding: 16px;
+				display: inline-block;
+				margin-bottom: 20px;
+				border: 1px solid #e5e5e5;
+				cursor: pointer;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+			}
+
+			.qr-image-wrap:hover {
+				transform: scale(1.03);
+				box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+			}
+
+			.qr-image {
+				width: 220px;
+				height: 220px;
+				object-fit: contain;
+				display: block;
+			}
+
+			.qr-tip {
+				font-size: 14px;
+				color: #57606a;
+				margin: 0;
+			}
+
+			.qr-tip strong {
+				color: #1a1a1a;
+			}
+
+			/* 图片放大模态框 */
+			.modal {
+				display: none;
+				position: fixed;
+				z-index: 2000;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.85);
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+			}
+
+			.modal.active {
+				display: flex;
+			}
+
+			.modal-content {
+				max-width: 90%;
+				max-height: 90%;
+				border-radius: 12px;
+				box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+				animation: zoomIn 0.3s ease;
+			}
+
+			.modal-close {
+				position: absolute;
+				top: 24px;
+				right: 36px;
+				color: #fff;
+				font-size: 40px;
+				font-weight: 300;
+				cursor: pointer;
+				transition: color 0.2s;
+			}
+
+			.modal-close:hover {
+				color: #0969da;
+			}
+
+			/* 其他捐赠方式 */
+			.other-methods {
+				max-width: 640px;
+				margin: 0 auto 64px;
+				text-align: center;
+			}
+
+			.other-methods h3 {
+				font-size: 20px;
+				margin: 0 0 24px;
+				color: #1a1a1a;
+			}
+
+			.method-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 16px;
+				justify-content: center;
+			}
+
+			.method-item {
+				flex: 1;
+				min-width: 200px;
+				background: #fff;
+				border: 1px solid #e5e5e5;
+				border-radius: 12px;
+				padding: 20px;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+			}
+
+			.method-item:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+			}
+
+			.method-icon {
+				font-size: 28px;
+				margin-bottom: 10px;
+			}
+
+			.method-item h4 {
+				font-size: 15px;
+				margin: 0 0 6px;
+			}
+
+			.method-item p {
+				font-size: 13px;
+				color: #57606a;
+				margin: 0;
+				font-family: "SFMono-Regular", Consolas, monospace;
+				word-break: break-all;
+			}
+
+			/* 感谢语 */
+			.thanks {
+				background: linear-gradient(135deg, #f0f6fc 0%, #ddf4ff 100%);
+				border: 1px solid #d0d7de;
+				border-radius: 16px;
+				padding: 40px;
+				text-align: center;
+				margin-bottom: 48px;
+				animation: fadeInUp 0.6s ease backwards;
+			}
+
+			.thanks .heart {
+				font-size: 36px;
+				margin-bottom: 12px;
+			}
+
+			.thanks h3 {
+				font-size: 22px;
+				margin: 0 0 8px;
+			}
+
+			.thanks p {
+				font-size: 15px;
+				color: #57606a;
+				max-width: 480px;
+				margin: 0 auto;
+			}
+
+			/* 页脚 */
+			footer {
+				padding: 32px 0 48px;
+				border-top: 1px solid #e5e5e5;
+				font-size: 14px;
+				color: #666;
+				text-align: center;
+			}
+
+			footer a {
+				color: #57606a;
+				text-decoration: none;
+				margin-left: 20px;
+				transition: opacity 0.2s;
+			}
+
+			footer a:first-child {
+				margin-left: 0;
+			}
+
+			footer a:hover {
+				color: #0969da;
+			}
+
+			/* 双语控制 */
+			body[data-lang="en"] .lang-zh { display: none; }
+			body[data-lang="en"] .lang-en { display: block; }
+			body[data-lang="en"] .lang-zh-inline { display: none; }
+			body[data-lang="en"] .lang-en-inline { display: inline; }
+			body[data-lang="zh"] .lang-en { display: none; }
+			body[data-lang="zh"] .lang-zh { display: block; }
+			body[data-lang="zh"] .lang-en-inline { display: none; }
+			body[data-lang="zh"] .lang-zh-inline { display: inline; }
+
+			/* 二维码切换显隐 */
+			.qr-panel { display: none; }
+			.qr-panel.active { display: block; }
+
+			@media (max-width: 768px) {
+				.donate-hero { padding: 32px 0 24px; }
+				.donate-hero h1 { font-size: 30px; }
+				.donate-hero .lead { font-size: 16px; }
+				.nav-links { display: none; }
+				.qr-card { padding: 28px 20px; }
+				.qr-image { width: 180px; height: 180px; }
+				.thanks { padding: 28px 20px; }
+				.modal-close { top: 16px; right: 16px; font-size: 32px; }
+			}
+
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(20px); }
+				to   { opacity: 1; transform: translateY(0); }
+			}
+
+			@keyframes zoomIn {
+				from { transform: scale(0.8); opacity: 0; }
+				to   { transform: scale(1); opacity: 1; }
+			}
+		</style>
+	</head>
+	<body data-lang="zh">
+		<div class="container">
+			<!-- 导航 -->
+			<nav>
+				<a href="/" class="logo">Batch<span>-</span>Doc<span>-</span>Maker</a>
+				<div class="nav-links">
+					<a href="https://zh419.github.io/Batch-Doc-Maker" class="lang-en-inline">HOME</a>
+					<a href="https://zh419.github.io/Batch-Doc-Maker" class="lang-zh-inline">首页</a>
+					<a href="/donate" class="lang-en-inline">Donate</a>
+					<a href="/donate" class="lang-zh-inline">捐赠</a>
+					<a href="/privacy" class="lang-en-inline">Privacy</a>
+					<a href="/privacy" class="lang-zh-inline">隐私</a>
+				</div>
+
+				<!-- 语言切换 -->
+				<div class="lang-switcher">
+					<button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+					<button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中</button>
+				</div>
+			</nav>
+
+			<!-- 主体 -->
+			<section class="donate-hero">
+				<h1 class="lang-en">If Batch-Doc-Maker<br><span class="accent">saves your time</span>, buy me a coffee</h1>
+				<h1 class="lang-zh">如果 Batch-Doc-Maker<br><span class="accent">为你省下了时间</span>，请作者喝杯咖啡</h1>
+
+				<p class="lead lang-en">Your support keeps it alive and motivates me to add more features. Any amount is deeply appreciated.</p>
+				<p class="lead lang-zh">你的支持能帮助项目持续维护，也能激励我开发更多实用功能。无论金额大小，都非常感谢。</p>
+			</section>
+
+			<!-- 二维码收款 -->
+			<div class="qr-card">
+				<!-- 切换标签 -->
+				<div class="qr-tabs">
+					<button class="qr-tab active" data-tab="wechat" onclick="switchQR('wechat')">
+						<span class="lang-en-inline">WeChat</span>
+						<span class="lang-zh-inline">微信</span>
+					</button>
+				</div>
+
+				<!-- 微信收款码 -->
+				<div class="qr-panel active" id="panel-wechat">
+					<!-- 点击二维码可放大 -->
+					<div class="qr-image-wrap" onclick="openModal('https://zh419.github.io/Batch-Doc-Maker/%E8%B5%9E%E8%B5%8F%E7%A0%81.png')">
+						<img src="https://zh419.github.io/Batch-Doc-Maker/%E8%B5%9E%E8%B5%8F%E7%A0%81.png" alt="WeChat Pay QR" class="qr-image">
+					</div>
+					<p class="qr-tip lang-en">Scan with <strong>WeChat</strong> to support · Click image to enlarge</p>
+					<p class="qr-tip lang-zh">使用 <strong>微信</strong> 扫一扫，支持作者 · 点击二维码可放大</p>
+				</div>
+			</div>
+
+			<!-- 感谢横幅 -->
+			<div class="thanks">
+				<div class="heart">🙏</div>
+				<h3 class="lang-en">Thank you for your support!</h3>
+				<h3 class="lang-zh">感谢你的支持！</h3>
+				<p class="lang-en">Every coffee counts. With your help, I can keep Batch-Doc-Maker free, private, and powerful for everyone.</p>
+				<p class="lang-zh">每一份支持都很重要。你的鼓励能让 Batch-Doc-Maker 继续保持免费、隐私优先、功能强大。</p>
+			</div>
+
+			<!-- 页脚 -->
+			<footer>
+				<span>© 2026 Batch-Doc-Maker · <span class="lang-en-inline">All rights reserved.</span><span class="lang-zh-inline">版权所有。</span></span>
+			</footer>
+		</div>
+
+		<!-- 图片放大模态框 -->
+		<div id="imageModal" class="modal" onclick="closeModal()">
+			<span class="modal-close">&times;</span>
+			<img class="modal-content" id="modalImage">
+		</div>
+
+		<script>
+			function switchLang(lang) {
+				document.body.setAttribute('data-lang', lang);
+				document.querySelectorAll('.lang-btn').forEach(btn => {
+					btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+				});
+			}
+
+			function switchQR(tab) {
+				document.querySelectorAll('.qr-tab').forEach(t => {
+					t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+				});
+				document.querySelectorAll('.qr-panel').forEach(p => {
+					p.classList.remove('active');
+				});
+				document.getElementById('panel-' + tab).classList.add('active');
+			}
+
+			// 打开图片放大模态框
+			function openModal(src) {
+				var modal = document.getElementById('imageModal');
+				var modalImg = document.getElementById('modalImage');
+				modalImg.src = src;
+				modal.classList.add('active');
+			}
+
+			// 关闭模态框
+			function closeModal() {
+				document.getElementById('imageModal').classList.remove('active');
+			}
+
+			// 按 Esc 键关闭模态框
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'Escape') {
+					closeModal();
+				}
+			});
+		</script>
+	</body>
+</html>
